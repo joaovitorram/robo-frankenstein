@@ -35,25 +35,25 @@ void frente(int velocidade, int mv) {
     digitalWrite(pinoMDb, LOW);
 }
 
-void esquerda(int velocidade) {
-    digitalWrite(pinoMEa, LOW);
-    digitalWrite(pinoMEb, velocidade);
+void esquerda(int velocidade, int mv) {
+    analogWrite(pinoMEa, velocidade);
+    digitalWrite(pinoMEb, LOW);
 
-    digitalWrite(pinoMDa, velocidade);
+    analogWrite(pinoMDa, mv);
     digitalWrite(pinoMDb, LOW);
 }
 
-void direita(int velocidade) {
-    digitalWrite(pinoMEa, velocidade);
+void direita(int velocidade, int mv) {
+    analogWrite(pinoMEa, mv);
     digitalWrite(pinoMEb, LOW);
 
-    digitalWrite(pinoMDa, LOW);
-    digitalWrite(pinoMDb, velocidade);
+    analogWrite(pinoMDa, velocidade);
+    digitalWrite(pinoMDb, LOW);
 }
 
 void ajustarDireita(int velocidade, int mv) {
     // Ajustar direção para a direita
-     analogWrite(pinoMEa, velocidade);
+    analogWrite(pinoMEa, velocidade);
     digitalWrite(pinoMEb, LOW);
 
     analogWrite(pinoMDa, mv);
@@ -62,7 +62,7 @@ void ajustarDireita(int velocidade, int mv) {
 
 void ajustarEsquerda(int velocidade, int mv) {
     // Ajustar direção para a esquerda
-     analogWrite(pinoMEa, mv);
+    analogWrite(pinoMEa, mv);
     digitalWrite(pinoMEb, LOW);
 
     analogWrite(pinoMDa, velocidade);
@@ -116,6 +116,18 @@ ajustarEsquerda(255, 200);
 else if(se > 100 && sc > 100 && sd < 100){
 
 ajustarDireita(255, 200);
+
+}
+
+else if(se < 100 && sc < 100 && sd > 100){
+
+esquerda(255, 150);
+
+}
+
+else if(se > 100 && sc < 100 && sd < 100){
+
+direita(255, 150);
 
 }
 
