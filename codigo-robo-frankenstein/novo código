@@ -1,0 +1,89 @@
+// sensor 1
+int pinIrC = 8;
+int pinIrD = 9;
+int pinIrE = 7;
+
+// motores
+int pinoM1a = 2;
+int pinoM1b = 3;
+int pinoM2a = 4; // Pino PWM para motor 2
+int pinoM2b = 5; // Pino PWM para motor 2
+
+void frente() {
+    // Movimento para frente
+    digitalWrite(pinoM1a, HIGH);
+    digitalWrite(pinoM1b, LOW);
+    analogWrite(pinoM2a, 255);
+    analogWrite(pinoM2b, 255);
+}
+
+void direita() {
+    // Ajustar para a direita
+    digitalWrite(pinoM1a, HIGH);
+    digitalWrite(pinoM1b, LOW);
+    analogWrite(pinoM2a, 255);
+    analogWrite(pinoM2b, 155);
+}
+
+void esquerda() {
+    // Ajustar para a esquerda
+    digitalWrite(pinoM1a, HIGH);
+    digitalWrite(pinoM1b, LOW);
+    analogWrite(pinoM2a, 155);
+    analogWrite(pinoM2b, 255);
+}
+
+void ajustarDireita() {
+    // Ajustar direção para a direita
+    digitalWrite(pinoM1a, HIGH);
+    digitalWrite(pinoM1b, LOW);
+    analogWrite(pinoM2a, 255);
+    analogWrite(pinoM2b, 240);
+}
+
+void ajustarEsquerda() {
+    // Ajustar direção para a esquerda
+    digitalWrite(pinoM1a, HIGH);
+    digitalWrite(pinoM1b, LOW);
+    analogWrite(pinoM2a, 240);
+    analogWrite(pinoM2b, 255);
+}
+
+void setup() {
+    Serial.begin(9600);
+
+    // Sensor Direito
+    pinMode(pinIrD, INPUT);
+    // Sensor Central
+    pinMode(pinIrC, INPUT);
+    // Sensor Esquerdo
+    pinMode(pinIrE, INPUT);
+
+    // Motor 1
+    pinMode(pinoM1a, OUTPUT);
+    pinMode(pinoM1b, OUTPUT);
+    // Motor 2
+    pinMode(pinoM2a, OUTPUT);
+    pinMode(pinoM2b, OUTPUT);
+}
+
+void loop() {
+    // Sensor Direito
+    bool valorLidoD = digitalRead(pinIrD);
+    // Sensor Central
+    bool valorLidoC = digitalRead(pinIrC);
+    // Sensor Esquerdo
+    bool valorLidoE = digitalRead(pinIrE);
+
+    if (valorLidoC) {
+        frente();
+    } else if (valorLidoD) {
+        ajustarDireita();
+    } else if (valorLidoE) {
+        ajustarEsquerda();
+    } else if (valorLidoE && valorLidoC) {
+        esquerda();
+    } else if (valorLidoD && valorLidoC) {
+        direita();
+    }
+}
