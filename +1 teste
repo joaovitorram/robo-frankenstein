@@ -1,0 +1,148 @@
+// sensor 1
+#define pinIrE  A5
+#define pinIrC  A4
+#define pinIrD  A3
+
+// motores
+#define pinoMEa 3
+#define pinoMEb 5
+#define pinoMDa 9 // Pino PWM para motor 2
+#define pinoMDb 10 // Pino PWM para motor 2
+
+
+int sensorDireito(){
+  return analogRead(pinIrD);
+  
+}
+
+int sensorCentral(){
+  return analogRead(pinIrC);
+  
+}
+
+int sensorEsquerdo(){
+  return analogRead(pinIrE);
+  
+}
+
+
+void frente(int velocidade, int mv) {
+    // Movimento para frente
+    analogWrite(pinoMEa, velocidade);
+    digitalWrite(pinoMEb, LOW);
+
+    analogWrite(pinoMDa, velocidade);
+    digitalWrite(pinoMDb, LOW);
+}
+
+void esquerda(int velocidade) {
+    digitalWrite(pinoMEa, LOW);
+    digitalWrite(pinoMEb, velocidade);
+
+    digitalWrite(pinoMDa, velocidade);
+    digitalWrite(pinoMDb, LOW);
+}
+
+void direita(int velocidade) {
+    digitalWrite(pinoMEa, velocidade);
+    digitalWrite(pinoMEb, LOW);
+
+    digitalWrite(pinoMDa, LOW);
+    digitalWrite(pinoMDb, velocidade);
+}
+
+void ajustarDireita(int velocidade, int mv) {
+    // Ajustar direção para a direita
+     analogWrite(pinoMEa, velocidade);
+    digitalWrite(pinoMEb, LOW);
+
+    analogWrite(pinoMDa, mv);
+    digitalWrite(pinoMDb, LOW);
+}
+
+void ajustarEsquerda(int velocidade, int mv) {
+    // Ajustar direção para a esquerda
+     analogWrite(pinoMEa, mv);
+    digitalWrite(pinoMEb, LOW);
+
+    analogWrite(pinoMDa, velocidade);
+    digitalWrite(pinoMDb, LOW);
+
+}
+
+void setup() {
+    Serial.begin(9600);
+
+    // Sensor Direito
+    pinMode(pinIrD, INPUT);
+    // Sensor Central
+    pinMode(pinIrC, INPUT);
+    // Sensor Esquerdo
+    pinMode(pinIrE, INPUT);
+
+    // Motor 1
+    pinMode(pinoMEa, OUTPUT);
+    pinMode(pinoMEb, OUTPUT);
+    // Motor 2
+    pinMode(pinoMDa, OUTPUT);
+    pinMode(pinoMDb, OUTPUT);
+}
+
+void loop() {
+
+int sd = sensorDireito();
+int sc = sensorCentral();
+int se = sensorEsquerdo();
+Serial.print(se);
+Serial.print(" ");
+Serial.print(sc);
+Serial.print(" ");
+Serial.println(sd);
+
+delay(100);
+
+if(se > 100 && sc < 100 && sd > 100){
+
+frente(255, 255);
+
+}
+
+else if(se < 100 && sc > 100 && sd > 100){
+
+ajustarEsquerda(255, 200);
+
+}
+
+else if(se > 100 && sc > 100 && sd < 100){
+
+ajustarDireita(255, 200);
+
+}
+
+else {
+
+frente(0, 0);
+
+}
+
+}
+
+
+
+
+/*
+  debug sensores
+  int sd = sensorDireito();
+  int sc = sensorCentral();
+  int se = sensorEsquerdo();
+  Serial.print(se);
+  Serial.print(" ");
+  Serial.print(sc);
+  Serial.print(" ");
+  Serial.println(sd);
+
+  if (sd < 100 && sc >100 && se <100){
+frente(150);
+}
+
+*/
