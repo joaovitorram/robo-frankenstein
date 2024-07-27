@@ -1,0 +1,115 @@
+// Definições de cores para sensores
+#define BRANCO 0
+#define PRETO 1
+
+// Definições dos pinos dos sensores
+#define pinIrE A5
+//#define pinIrC A4
+#define pinIrD A2
+
+// Definições dos pinos dos motores
+#define pinoMEa 3
+#define pinoMEb 5
+#define pinoMDa 11  // Pino PWM para motor 1
+#define pinoMDb 10  // Pino PWM para motor 2
+
+// Função para ler o sensor direito
+int sensorDireito() {
+  return digitalRead(pinIrD);
+}
+
+// Função para ler o sensor esquerdo
+int sensorEsquerdo() {
+  return digitalRead(pinIrE);
+}
+
+void frente(int velocidade) {
+  analogWrite(pinoMEa, velocidade);  // Define a velocidade do motor esquerdo
+  digitalWrite(pinoMEb, LOW);        // Define a direção do motor esquerdo (ou pino de controle)
+
+  analogWrite(pinoMDa, velocidade);  // Define a velocidade do motor direito
+  digitalWrite(pinoMDb, LOW);        // Define a direção do motor direito (ou pino de controle)
+}
+
+void esquerda(int velocidade, int mv) {
+  analogWrite(pinoMEa, velocidade);  // Define a velocidade do motor esquerdo
+  digitalWrite(pinoMEb, LOW);        // Define a direção do motor esquerdo (ou pino de controle)
+
+  analogWrite(pinoMDa, mv);    // Define a velocidade do motor direito
+  digitalWrite(pinoMDb, LOW);  // Define a direção do motor direito (ou pino de controle)
+}
+
+void direita(int velocidade, int mv) {
+  analogWrite(pinoMEa, mv);    // Define a velocidade do motor esquerdo
+  digitalWrite(pinoMEb, LOW);  // Define a direção do motor esquerdo (ou pino de controle)
+
+  analogWrite(pinoMDa, velocidade);  // Define a velocidade do motor direito
+  digitalWrite(pinoMDb, LOW);        // Define a direção do motor direito (ou pino de controle)
+}
+
+void ajustarDireita(int velocidade, int mv) {
+  analogWrite(pinoMEa, velocidade);  // Define a velocidade do motor esquerdo
+  digitalWrite(pinoMEb, LOW);        // Define a direção do motor esquerdo (ou pino de controle)
+
+  analogWrite(pinoMDa, mv);    // Define a velocidade do motor direito
+  digitalWrite(pinoMDb, LOW);  // Define a direção do motor direito (ou pino de controle)
+}
+
+void ajustarEsquerda(int velocidade, int mv) {
+  analogWrite(pinoMEa, mv);    // Define a velocidade do motor esquerdo
+  digitalWrite(pinoMEb, LOW);  // Define a direção do motor esquerdo (ou pino de controle)
+
+  analogWrite(pinoMDa, velocidade);  // Define a velocidade do motor direito
+  digitalWrite(pinoMDb, LOW);        // Define a direção do motor direito (ou pino de controle)
+}
+
+void setup() {
+  Serial.begin(9600);
+
+  // Configura os pinos dos sensores
+  pinMode(pinIrD, INPUT);
+  // pinMode(pinIrC, INPUT);  // Descomentar se o sensor central for usado
+  pinMode(pinIrE, INPUT);
+
+  // Configura os pinos dos motores
+  pinMode(pinoMEa, OUTPUT);
+  pinMode(pinoMEb, OUTPUT);
+  pinMode(pinoMDa, OUTPUT);
+  pinMode(pinoMDb, OUTPUT);
+}
+
+void loop() {
+  int sd = sensorDireito();
+  int se = sensorEsquerdo();
+
+  Serial.print("Sensor Esquerdo: ");
+  Serial.print(se);
+  Serial.print(" Sensor Direito: ");
+  Serial.println(sd);
+
+
+  if (se == BRANCO && sd == BRANCO) {  // Segue reto
+    Serial.println("Frente");
+    frente(255);
+  } else if (se == PRETO && sd == BRANCO) {  // Vira esquerda
+    Serial.println("Esquerda");
+    analogWrite(pinoMEa, 0);
+    digitalWrite(pinoMEb, LOW);
+    analogWrite(pinoMDa, 255);
+    digitalWrite(pinoMDb, LOW);
+  } else if (se == BRANCO && sd == PRETO) {  // Vira direita
+    Serial.println("Direita");
+    analogWrite(pinoMEa, 255);
+    digitalWrite(pinoMEb, LOW);
+    analogWrite(pinoMDa, 0);
+    digitalWrite(pinoMDb, LOW);
+  } else {  // Desliga motores
+    Serial.println("Desliga motores");
+    analogWrite(pinoMEa, 0);
+    analogWrite(pinoMDa, 0);
+    digitalWrite(pinoMEb, LOW);
+    digitalWrite(pinoMDb, LOW);
+  }
+
+  delay(80);  // Delay para evitar leituras muito rápidas
+}
