@@ -1,0 +1,40 @@
+const int trigPin = 9;
+const int echoPin = 8;
+const int pinled = 13;
+
+const float DISTANCIA_SEGURA = 10.0; // [cm]
+const int PAUSA = 100;
+
+void setup() {
+  Serial.begin(9600);
+  
+  pinMode(trigPin, OUTPUT);
+  pinMode(echoPin, INPUT);
+  pinMode(pinled, OUTPUT);
+}
+
+void loop() {
+  // Envia pulso para o trigPin
+  digitalWrite(trigPin, LOW);
+  delayMicroseconds(2);
+  digitalWrite(trigPin, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(trigPin, LOW);
+
+  // Calcula a distância
+  float distance = pulseIn(echoPin, HIGH) * 0.017;
+  
+  // Exibe a distância no Serial Monitor
+  Serial.print("Distância: ");
+  Serial.print(distance);
+  Serial.println(" cm"); // Corrigido para adicionar uma nova linha e mostrar a unidade
+
+  // Verifica se a distância é menor que a distância segura
+  if (distance < DISTANCIA_SEGURA) {
+    digitalWrite(pinled, HIGH); // Liga o LED
+  } else {
+    digitalWrite(pinled, LOW); // Desliga o LED
+  }
+
+  delay(PAUSA); // Pausa para evitar medições muito frequentes
+}
