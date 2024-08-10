@@ -1,0 +1,126 @@
+//Sensores
+#define pinSensorD 11
+#define pinSensorE 12
+
+
+//Sensor para distancia
+#define pinSensorM 13
+
+
+//Motores
+#define pinMotorD1 3
+#define pinMotorD2 5
+#define pinMotorE3 9
+#define pinMotorE4 6
+
+void setup() {
+//Sensores
+pinMode(pinSensorD, INPUT);
+pinMode(pinSensorE, INPUT);
+  
+//Sensor para distancia
+pinMode(pinSensorM, INPUT);
+
+
+//Motores
+pinMode(pinMotorD1, OUTPUT);
+pinMode(pinMotorD2, OUTPUT);
+pinMode(pinMotorE3, OUTPUT);
+pinMode(pinMotorE4, OUTPUT);
+
+}
+
+void loop() {
+
+    bool estadoD = !digitalRead(pinSensorD);
+    bool estadoE = !digitalRead(pinSensorE);
+  
+  	bool distancia = digitalRead(pinSensorM);
+  
+  
+  if(distancia == x) {
+    para();
+    
+    digitalWrite(pinMotorD1, HIGH);
+    digitalWrite(pinMotorD2, LOW);
+    digitalWrite(pinMotorE3, LOW);
+    digitalWrite(pinMotorE4, HIGH);
+    
+    delay(90);
+      
+    digitalWrite(pinMotorD1, HIGH);
+    digitalWrite(pinMotorD2, LOW);
+    digitalWrite(pinMotorE3, HIGH);
+    digitalWrite(pinMotorE4, LOW);
+    
+        delay(90);
+
+    
+    digitalWrite(pinMotorD1, LOW);
+    digitalWrite(pinMotorD2, HIGH);
+    digitalWrite(pinMotorE3, LOW);
+    digitalWrite(pinMotorE4, HIGH);
+    
+    delay(90);
+      
+    digitalWrite(pinMotorD1, HIGH);
+    digitalWrite(pinMotorD2, LOW);
+    digitalWrite(pinMotorE3, HIGH);
+    digitalWrite(pinMotorE4, LOW);
+    
+    delay(90);
+    
+     digitalWrite(pinMotorD1, LOW);
+    digitalWrite(pinMotorD2, HIGH);
+    digitalWrite(pinMotorE3, LOW);
+    digitalWrite(pinMotorE4, HIGH);
+    
+    delay(90);
+      
+    digitalWrite(pinMotorD1, HIGH);
+    digitalWrite(pinMotorD2, LOW);
+    digitalWrite(pinMotorE3, HIGH);
+    digitalWrite(pinMotorE4, LOW);
+    
+    delay(90);
+    
+    
+    digitalWrite(pinMotorD1, HIGH);
+    digitalWrite(pinMotorD2, LOW);
+    digitalWrite(pinMotorE3, LOW);
+    digitalWrite(pinMotorE4, HIGH);
+
+  
+  }
+
+
+//Andar
+if(estadoD && estadoE) {
+    analogWrite(pinMotorD1, 250);
+    analogWrite(pinMotorE3, 250);
+}
+
+//Parar
+if(!estadoD && !estadoE){
+    digitalWrite(pinMotorD1, LOW);
+    digitalWrite(pinMotorD2, LOW);
+    digitalWrite(pinMotorE3, LOW);
+    digitalWrite(pinMotorE4, LOW);
+}
+
+//Ajustar a Direita
+if(!estadoD && estadoE) {
+    analogWrite(pinMotorD1, 250);
+   // analogWrite(pinMotorE4, 255);
+
+    digitalWrite(pinMotorE3, LOW);
+    //digitalWrite(pinMotorD2, LOW);
+
+}
+
+//Ajustar a Esquerda
+if(estadoD && !estadoE) {
+    digitalWrite(pinMotorD1, LOW);
+    analogWrite(pinMotorE3, 250);
+}
+}
