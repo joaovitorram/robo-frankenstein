@@ -1,0 +1,109 @@
+// Pinos dos sensores
+#define pinIrD 12
+#define pinIrE 13
+
+// Lendo ou não Lendo
+#define BRANCO 0
+#define PRETO 1
+
+// Pinos dos motores
+#define pinoMEa 5
+#define pinoMEb 6
+#define pinoMDa 9  
+#define pinoMDb 10 
+
+// Velocidade dos motores
+#define VME 170//180//190//200//255
+#define VMD 119//129//133//170
+
+// Função para mover o robô para frente
+void frente(int velocidade1, int velocidade2) {
+  analogWrite(pinoMEa, velocidade1);  // Define a velocidade do motor esquerdo
+  digitalWrite(pinoMEb, LOW);        // Define a direção do motor esquerdo (ou pino de controle)
+
+  analogWrite(pinoMDa, velocidade2);  // Define a velocidade do motor direito
+  digitalWrite(pinoMDb, LOW);        // Define a direção do motor direito (ou pino de controle)
+}
+
+//Função para desligar os motores
+void parar(){
+  digitalWrite(pinoMEa, LOW);
+  digitalWrite(pinoMEb, LOW);
+
+  digitalWrite(pinoMDa, LOW);
+  digitalWrite(pinoMDb, LOW);
+}
+
+// Função para ajustar o robô para a esquerda
+void esquerda(int velocidade1, int velocidade2) {
+  analogWrite(pinoMEa, velocidade1);  // Reduz a velocidade do motor esquerdo
+  digitalWrite(pinoMEb, LOW);         // Define a direção do motor esquerdo
+  
+  digitalWrite(pinoMDa, LOW);         // Para o motor direito
+  analogWrite(pinoMDb, velocidade2);  // Reduz a velocidade do motor direito
+}
+
+// Função para ajustar o robô para a direita
+void direita (int velocidade1, int velocidade2) {
+  digitalWrite(pinoMEa, LOW);         // Para o motor esquerda
+  analogWrite(pinoMEb, velocidade1);  // Reduz a velocidade do motor esquerdo
+  
+  analogWrite(pinoMDa, velocidade2);  // Reduz a velocidade do motor direito
+  digitalWrite(pinoMDb, LOW);         // Define a direção do motor direito
+}
+
+
+void setup() {
+    Serial.begin(9600);
+
+    // Configuração dos pinos dos sensores
+    pinMode(pinIrD, INPUT);
+    pinMode(pinIrE, INPUT);
+
+    // Configurando os pinos dos motores
+    pinMode(pinoMEa, OUTPUT);
+    pinMode(pinoMEb, OUTPUT);
+    pinMode(pinoMDa, OUTPUT);
+    pinMode(pinoMDb, OUTPUT);
+}
+
+void loop() {
+    // Leitura dos valores dos sensores
+    int sd = digitalRead(pinIrD);
+    int se = digitalRead(pinIrE);
+
+    // Impressão dos valores lado a lado
+    Serial.print("Sensor Direito: ");
+    Serial.print(sd);
+    Serial.print(" | Sensor Esquerdo: ");
+    Serial.println(se);
+
+    // Fazer o carrinho andar para frente
+    if(sd == BRANCO && se == BRANCO){
+      frente(VME, VMD);
+            delay(80);
+    }
+
+    // Fazer o carrinho ajustar a direita
+    else if(sd == PRETO && se == BRANCO){
+      //parar();
+      delay(80);
+      direita(255, 115);
+    }
+
+    // Fazer o carrinho ajustar a esquerda
+    else if(sd == BRANCO && se == PRETO){
+      //parar();
+      delay(80);
+      esquerda(160, 133);
+    }
+
+    else{
+      parar();
+    }
+
+
+
+    // Atraso para a próxima leitura
+    delay(80);
+}
