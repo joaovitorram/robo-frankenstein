@@ -1,0 +1,58 @@
+// Sensores
+#define pinSensorD 13
+#define pinSensorE 12
+
+// Motores
+#define pinMotorD1 9
+#define pinMotorD2 10
+#define pinMotorE3 5
+#define pinMotorE4 6
+
+void setup() {
+    // Sensores
+    pinMode(pinSensorD, INPUT);
+    pinMode(pinSensorE, INPUT);
+
+    // Motores
+    pinMode(pinMotorD1, OUTPUT);
+    pinMode(pinMotorD2, OUTPUT);
+    pinMode(pinMotorE3, OUTPUT);
+    pinMode(pinMotorE4, OUTPUT);
+}
+
+void loop() {
+
+    bool estadoD = !digitalRead(pinSensorD);
+    bool estadoE = !digitalRead(pinSensorE);
+
+    // Andar
+    if (estadoD && estadoE) {
+        analogWrite(pinMotorD1, 110);
+        analogWrite(pinMotorE3, 130);
+        digitalWrite(pinMotorD2, LOW);
+        digitalWrite(pinMotorE4, LOW);
+    }
+    // Parar
+     if (!estadoD && !estadoE) {
+        digitalWrite(pinMotorD1, LOW);
+        digitalWrite(pinMotorD2, LOW);
+        digitalWrite(pinMotorE3, LOW);
+        digitalWrite(pinMotorE4, LOW);
+    }
+    // Ajustar a Direita
+    else if (estadoD && !estadoE) {
+        analogWrite(pinMotorD1, 120);
+        digitalWrite(pinMotorD2, LOW);
+        digitalWrite(pinMotorE3, LOW);
+        analogWrite(pinMotorE4, 100);
+    }
+    // Ajustar a Esquerda
+    else if (!estadoD && estadoE) {
+        digitalWrite(pinMotorD1, LOW);
+        analogWrite(pinMotorD2, 120);
+        analogWrite(pinMotorE3, 140);
+        digitalWrite(pinMotorE4, LOW);
+    }
+
+    delay(100); // Pequeno atraso para evitar leituras muito rápidas
+}
