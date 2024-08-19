@@ -1,0 +1,85 @@
+// Sensores
+#define pinSensorD 13
+#define pinSensorE 12
+
+// Motores
+#define pinMotorD1 9
+#define pinMotorD2 10
+#define pinMotorE3 5
+#define pinMotorE4 6
+
+// Funções de movimento
+void frente (){
+    analogWrite(pinMotorD1, 110);
+    analogWrite(pinMotorE3, 140);
+    digitalWrite(pinMotorD2, LOW);
+    digitalWrite(pinMotorE4, LOW);
+}
+
+void parar(){
+      digitalWrite(pinMotorD1, LOW);
+      digitalWrite(pinMotorD2, LOW);
+      digitalWrite(pinMotorE3, LOW);
+      digitalWrite(pinMotorE4, LOW);  
+}
+
+void adireita(){
+      analogWrite(pinMotorD1, 255);
+      digitalWrite(pinMotorD2, LOW);
+      digitalWrite(pinMotorE3, LOW);
+      analogWrite(pinMotorE4, 255);
+}
+
+void aesquerda(){
+      digitalWrite(pinMotorD1, LOW);
+      analogWrite(pinMotorD2, 180);
+      analogWrite(pinMotorE3, 255);
+      digitalWrite(pinMotorE4, LOW);
+}
+
+void setup() {
+    // Sensores
+    pinMode(pinSensorD, INPUT);
+    pinMode(pinSensorE, INPUT);
+
+    // Motores
+    pinMode(pinMotorD1, OUTPUT);
+    pinMode(pinMotorD2, OUTPUT);
+    pinMode(pinMotorE3, OUTPUT);
+    pinMode(pinMotorE4, OUTPUT);
+}
+
+void loop() {
+
+    bool estadoD = !digitalRead(pinSensorD);
+    bool estadoE = !digitalRead(pinSensorE);
+
+    // Andar
+    if (estadoD && estadoE) {
+//        analogWrite(pinMotorD1, 110);
+//        analogWrite(pinMotorE3, 140);
+//        digitalWrite(pinMotorD2, LOW);
+//        digitalWrite(pinMotorE4, LOW);
+      frente();
+    }
+    // Parar
+     if (!estadoD && !estadoE) {
+        frente();
+    }
+    // Ajustar a Direita
+    else if (estadoD && !estadoE) {
+        parar();
+        delay(1900);
+        adireita();
+    }
+    // Ajustar a Esquerda
+    else if (!estadoD && estadoE) {
+      parar();
+      delay(30);
+      aesquerda();
+      delay(90);
+      frente();
+    }
+
+    delay(100); // Pequeno atraso para evitar leituras muito rápidas
+}
