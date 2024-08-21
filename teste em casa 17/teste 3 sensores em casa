@@ -1,0 +1,86 @@
+// Sensores
+#define pinSensorE 8
+#define pinSensorC A3
+#define pinSensorD 12
+//#define pinSensorD2 12
+//#define pinSensorE2 4
+
+// Cores
+#define preto 0
+#define branco 1
+
+
+
+// Motores
+#define pinMotorD1 10
+#define pinMotorD2 9
+#define pinMotorE3 5
+#define pinMotorE4 6
+
+void setup() {
+  Serial.begin(9600);
+
+  // Sensores
+  pinMode(pinSensorD, INPUT);
+  pinMode(pinSensorE, INPUT);
+
+  // Motores
+  pinMode(pinMotorD1, OUTPUT);
+  pinMode(pinMotorD2, OUTPUT);
+  pinMode(pinMotorE3, OUTPUT);
+  pinMode(pinMotorE4, OUTPUT);
+}
+
+void loop() {
+  // Leitura dos sensores
+  int estadoC = analogRead(pinSensorC);
+  int estadoD = digitalRead(pinSensorD);
+  int estadoE = digitalRead(pinSensorE);
+ // int estadoD2 = digitalRead(pinSensorD2);
+ // int estadoE2 = digitalRead(pinSensorE2);
+
+
+  // Imprime os nomes dos sensores e os valores abaixo
+ 
+  Serial.print("Valor:   ");
+ // Serial.print(estadoD2);
+  Serial.print("  ");
+  Serial.print(estadoD);
+  Serial.print("  ");
+  Serial.print(estadoC);
+  Serial.print("  ");
+  Serial.println(estadoE);
+  //Serial.print("  ");
+  //Serial.println(estadoE2);
+
+
+  // Controle dos motores com base nas leituras dos sensores
+  if (estadoD == 0 && estadoE < 512) {
+    // Andar
+    analogWrite(pinMotorD1, 130);
+    analogWrite(pinMotorE3, 130);
+    digitalWrite(pinMotorD2, LOW);
+    digitalWrite(pinMotorE4, LOW);
+  } 
+  else if (estadoD == 0 && estadoE < 512) {
+    // Parar
+    digitalWrite(pinMotorD1, LOW);
+    digitalWrite(pinMotorD2, LOW);
+    digitalWrite(pinMotorE3, LOW);
+    digitalWrite(pinMotorE4, LOW);
+  } 
+  else if (estadoD > 512 && estadoE > 512) {
+    // Ajustar para a direita
+    analogWrite(pinMotorD1, 115);
+    digitalWrite(pinMotorE3, LOW);
+    digitalWrite(pinMotorE4, LOW);
+  } 
+  else if (estadoD == 0 && estadoE < 512) {
+    // Ajustar para a esquerda
+    digitalWrite(pinMotorD1, LOW);
+    analogWrite(pinMotorE3, 150);
+    digitalWrite(pinMotorE4, LOW);
+  }
+
+  //delay(10); // Atraso para evitar leituras muito rápidas
+}
