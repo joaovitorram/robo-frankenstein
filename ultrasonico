@@ -8,7 +8,7 @@ int pinoMEa = 5; // Pino PWM para motor 2
 int pinoMEb = 6; // Pino PWM para motor 2
 
 
- float DISTANCIA_SEGURA = 10.0; // [cm]
+ float DISTANCIA_SEGURA = 12.0; // [cm]
  int PAUSA = 100;
 
 void setup() {
@@ -45,67 +45,67 @@ void loop() {
   // Verifica se a distância é menor que a distância segura
   if (distance < DISTANCIA_SEGURA) {
     
-    digitalWrite(pinoMDa, LOW);
+    analogWrite(pinoMDa, 200);
     digitalWrite(pinoMDb, LOW);
     digitalWrite(pinoMEa, LOW);
-    digitalWrite(pinoMEb, LOW);
+    analogWrite(pinoMEb, 150);
 
-    delay(90);
+    delay(250);
     
-    digitalWrite(pinoMDa, HIGH);
+    analogWrite(pinoMDa, 150);
     digitalWrite(pinoMDb, LOW);
-    digitalWrite(pinoMEa, LOW);
-    digitalWrite(pinoMEb, HIGH);
-    
-    delay(90);
-      
-    digitalWrite(pinoMDa, HIGH);
-    digitalWrite(pinoMDb, LOW);
-    digitalWrite(pinoMEa, HIGH);
+    analogWrite(pinoMEa, 255);
     digitalWrite(pinoMEb, LOW);
     
-    delay(90);
-    
-    digitalWrite(pinoMDa, LOW);
-    digitalWrite(pinoMDb, HIGH);
-    digitalWrite(pinoMEa, LOW);
-    digitalWrite(pinoMEb, HIGH);
-    
-    delay(90);
-      
-    digitalWrite(pinoMDa, HIGH);
-    digitalWrite(pinoMDb, LOW);
-    digitalWrite(pinoMEa, HIGH);
-    digitalWrite(pinoMEb, LOW);
-    
-    delay(90);
-    
-    digitalWrite(pinoMDa, LOW);
-    digitalWrite(pinoMDb, HIGH);
-    digitalWrite(pinoMEa, LOW);
-    digitalWrite(pinoMEb, HIGH);
-    
-    delay(90);
-      
-    digitalWrite(pinoMDa, HIGH);
-    digitalWrite(pinoMDb, LOW);
-    digitalWrite(pinoMEa, HIGH);
-    digitalWrite(pinoMEb, LOW);
-    
-    delay(90);
-    
-    
-    digitalWrite(pinoMDa, HIGH);
-    digitalWrite(pinoMDb, LOW);
-    digitalWrite(pinoMEa, LOW);
-    digitalWrite(pinoMEb, HIGH);
+//    delay(90);
+//      
+//    digitalWrite(pinoMDa, HIGH);
+//    digitalWrite(pinoMDb, LOW);
+//    digitalWrite(pinoMEa, HIGH);
+//    digitalWrite(pinoMEb, LOW);
+//    
+//    delay(90);
+//    
+//    digitalWrite(pinoMDa, LOW);
+//    digitalWrite(pinoMDb, HIGH);
+//    digitalWrite(pinoMEa, LOW);
+//    digitalWrite(pinoMEb, HIGH);
+//    
+//    delay(90);
+//      
+//    digitalWrite(pinoMDa, HIGH);
+//    digitalWrite(pinoMDb, LOW);
+//    digitalWrite(pinoMEa, HIGH);
+//    digitalWrite(pinoMEb, LOW);
+//    
+//    delay(90);
+//    
+//    digitalWrite(pinoMDa, LOW);
+//    digitalWrite(pinoMDb, HIGH);
+//    digitalWrite(pinoMEa, LOW);
+//    digitalWrite(pinoMEb, HIGH);
+//    
+//    delay(90);
+//      
+//    digitalWrite(pinoMDa, HIGH);
+//    digitalWrite(pinoMDb, LOW);
+//    digitalWrite(pinoMEa, HIGH);
+//    digitalWrite(pinoMEb, LOW);
+//    
+//    delay(90);
+//    
+//    
+//    digitalWrite(pinoMDa, HIGH);
+//    digitalWrite(pinoMDb, LOW);
+//    digitalWrite(pinoMEa, LOW);
+//    digitalWrite(pinoMEb, HIGH);
   
   }
 
   else {
-    digitalWrite(pinoMDa, HIGH);
+    analogWrite(pinoMDa, 150);
     digitalWrite(pinoMDb, LOW);
-    digitalWrite(pinoMEa, HIGH);
+    analogWrite(pinoMEa, 150);
     digitalWrite(pinoMEb, LOW);
   }
 
