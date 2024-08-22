@@ -1,16 +1,29 @@
-const int trigPin = 9;
-const int echoPin = 8;
-const int pinled = 13;
+ int trigPin = A5;
+ int echoPin = A4;
+ 
+// motores
+int pinoMDa = 10;
+int pinoMDb = 9;
+int pinoMEa = 5; // Pino PWM para motor 2
+int pinoMEb = 6; // Pino PWM para motor 2
 
-const float DISTANCIA_SEGURA = 10.0; // [cm]
-const int PAUSA = 100;
+
+ float DISTANCIA_SEGURA = 10.0; // [cm]
+ int PAUSA = 100;
 
 void setup() {
   Serial.begin(9600);
   
   pinMode(trigPin, OUTPUT);
   pinMode(echoPin, INPUT);
-  pinMode(pinled, OUTPUT);
+
+  // Motor 1
+    pinMode(pinoMDa, OUTPUT);
+    pinMode(pinoMDb, OUTPUT);
+    // Motor 2
+    pinMode(pinoMEa, OUTPUT);
+    pinMode(pinoMEb, OUTPUT);
+
 }
 
 void loop() {
@@ -31,10 +44,73 @@ void loop() {
 
   // Verifica se a distância é menor que a distância segura
   if (distance < DISTANCIA_SEGURA) {
-    digitalWrite(pinled, HIGH); // Liga o LED
-  } else {
-    digitalWrite(pinled, LOW); // Desliga o LED
+    
+    digitalWrite(pinoMDa, LOW);
+    digitalWrite(pinoMDb, LOW);
+    digitalWrite(pinoMEa, LOW);
+    digitalWrite(pinoMEb, LOW);
+
+    delay(90);
+    
+    digitalWrite(pinoMDa, HIGH);
+    digitalWrite(pinoMDb, LOW);
+    digitalWrite(pinoMEa, LOW);
+    digitalWrite(pinoMEb, HIGH);
+    
+    delay(90);
+      
+    digitalWrite(pinoMDa, HIGH);
+    digitalWrite(pinoMDb, LOW);
+    digitalWrite(pinoMEa, HIGH);
+    digitalWrite(pinoMEb, LOW);
+    
+    delay(90);
+    
+    digitalWrite(pinoMDa, LOW);
+    digitalWrite(pinoMDb, HIGH);
+    digitalWrite(pinoMEa, LOW);
+    digitalWrite(pinoMEb, HIGH);
+    
+    delay(90);
+      
+    digitalWrite(pinoMDa, HIGH);
+    digitalWrite(pinoMDb, LOW);
+    digitalWrite(pinoMEa, HIGH);
+    digitalWrite(pinoMEb, LOW);
+    
+    delay(90);
+    
+    digitalWrite(pinoMDa, LOW);
+    digitalWrite(pinoMDb, HIGH);
+    digitalWrite(pinoMEa, LOW);
+    digitalWrite(pinoMEb, HIGH);
+    
+    delay(90);
+      
+    digitalWrite(pinoMDa, HIGH);
+    digitalWrite(pinoMDb, LOW);
+    digitalWrite(pinoMEa, HIGH);
+    digitalWrite(pinoMEb, LOW);
+    
+    delay(90);
+    
+    
+    digitalWrite(pinoMDa, HIGH);
+    digitalWrite(pinoMDb, LOW);
+    digitalWrite(pinoMEa, LOW);
+    digitalWrite(pinoMEb, HIGH);
+  
   }
+
+  else {
+    digitalWrite(pinoMDa, HIGH);
+    digitalWrite(pinoMDb, LOW);
+    digitalWrite(pinoMEa, HIGH);
+    digitalWrite(pinoMEb, LOW);
+  }
+
+
+
 
   delay(PAUSA); // Pausa para evitar medições muito frequentes
 }
