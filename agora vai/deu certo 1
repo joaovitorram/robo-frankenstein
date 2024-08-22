@@ -3,6 +3,9 @@ int pinIrC = A3;
 int pinIrD = 12;
 int pinIrE = 8;
 
+#define BRANCO 1
+#define PRETO 0
+
 // motores
 int pinoMDa = 10;
 int pinoMDb = 9;
@@ -87,14 +90,25 @@ void loop() {
   //Serial.print("  ");
   //Serial.println(estadoE2);
 
-    if (valorLidoD == 1 && valorLidoC > 500 && valorLidoE == 1) {
+    if (valorLidoD == BRANCO && valorLidoC > 500 && valorLidoE == BRANCO) {
         frente();
     } 
-    else if (valorLidoD == 0 && valorLidoC < 500 && valorLidoE == 1) {
-        direita();
-    } 
-    else if (valorLidoD == 1 && valorLidoC < 500 && valorLidoE == 0) {
-        esquerda();
+
+    else if (valorLidoC > 500 ){
+        frente();
+    }
+
+    
+    else if (valorLidoD == PRETO && valorLidoC < 500 && valorLidoE == BRANCO) {
+    digitalWrite(pinoMDa, LOW);
+    digitalWrite(pinoMDb, LOW);
+    analogWrite(pinoMEa, 150);
+    digitalWrite(pinoMEb, LOW);    } 
+    else if (valorLidoD == BRANCO && valorLidoC < 500 && valorLidoE == PRETO) {
+    analogWrite(pinoMDa, 150);
+    digitalWrite(pinoMDb, LOW);
+    digitalWrite(pinoMEa, LOW);
+    digitalWrite(pinoMEb, LOW);
     } 
     // else if (valorLidoE && valorLidoC) {
     //     esquerda();
